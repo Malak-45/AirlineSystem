@@ -1,95 +1,408 @@
-#include <iostream>
+
+
+    #include <iostream>
 #include <string>
 using namespace std;
 
 int main()
 {
-    string destinations[5] = {
+    // Flight information
+    int flightNumber[5] = {101, 102, 103, 104, 105};
+
+    string from[5] = {
         "Cairo",
+        "Cairo",
+        "Cairo",
+        "Cairo",
+        "Cairo"
+    };
+
+    string to[5] = {
         "Dubai",
         "Istanbul",
         "Paris",
-        "London"
+        "London",
+        "Riyadh"
+    };
+
+    string dates[5] = {
+        "25/10/2026",
+        "26/10/2026",
+        "27/10/2026",
+        "28/10/2026",
+        "29/10/2026"
+    };
+
+    string times[5] = {
+        "10:00 AM",
+        "02:30 PM",
+        "08:00 AM",
+        "06:00 PM",
+        "11:30 AM"
     };
 
     double prices[5] = {
-        1500,
         4500,
         6000,
         9000,
-        10000
+        10000,
+        5000
     };
 
-    string passengerName;
-    string passportNumber;
-    string travelDate;
+    int availableSeats[5] = {
+        20,
+        15,
+        10,
+        25,
+        18
+    };
+
+    // Booking information
+    int bookingID[100];
+    int bookedFlight[100];
+    string passengerName[100];
+    string passport[100];
+    int bookedSeats[100];
+    double bookingPrice[100];
+    bool bookingActive[100];
+
+    int bookingCount = 0;
+    int nextBookingID = 1001;
 
     int choice;
-    int seats;
-    int bookingNumber = 1001;
-    double totalPrice;
 
-    cout << "========================================\n";
-    cout << "        ✈ FLIGHT BOOKING SYSTEM ✈\n";
-    cout << "========================================\n";
+    cout << "============================================\n";
+    cout << "       ✈ AIRLINE RESERVATION SYSTEM ✈\n";
+    cout << "============================================\n";
 
-    cout << "\nAvailable Flights:\n";
-
-    for (int i = 0; i < 5; i++)
+    do
     {
-        cout << i + 1 << ". "
-             << destinations[i]
-             << " - "
-             << prices[i]
-             << " EGP\n";
-    }
+        cout << "\n============== MAIN MENU ==============\n";
+        cout << "1. View Available Flights\n";
+        cout << "2. Search Flight\n";
+        cout << "3. Book a Flight\n";
+        cout << "4. View Booking\n";
+        cout << "5. Cancel Booking\n";
+        cout << "6. View All Bookings\n";
+        cout << "7. Exit\n";
+        cout << "========================================\n";
 
-    cout << "\nChoose your destination: ";
-    cin >> choice;
+        cout << "Enter your choice: ";
+        cin >> choice;
 
-    if (choice < 1 || choice > 5)
-    {
-        cout << "\nInvalid choice!\n";
-        return 0;
-    }
+        // --------------------------------
+        // 1. View Flights
+        // --------------------------------
 
-    cout << "Enter passenger name: ";
-    cin.ignore();
-    getline(cin, passengerName);
+        if (choice == 1)
+        {
+            cout << "\n============= AVAILABLE FLIGHTS =============\n";
 
-    cout << "Enter passport number: ";
-    getline(cin, passportNumber);
+            for (int i = 0; i < 5; i++)
+            {
+                cout << "\nFlight Number : " << flightNumber[i] << endl;
+                cout << "From          : " << from[i] << endl;
+                cout << "To            : " << to[i] << endl;
+                cout << "Date          : " << dates[i] << endl;
+                cout << "Time          : " << times[i] << endl;
+                cout << "Price         : " << prices[i] << " EGP\n";
+                cout << "Available     : " << availableSeats[i] << " seats\n";
+                cout << "---------------------------------------------\n";
+            }
+        }
 
-    cout << "Enter travel date: ";
-    getline(cin, travelDate);
+        // --------------------------------
+        // 2. Search Flight
+        // --------------------------------
 
-    cout << "Enter number of seats: ";
-    cin >> seats;
+        else if (choice == 2)
+        {
+            int searchFlight;
+            bool found = false;
 
-    if (seats <= 0)
-    {
-        cout << "\nInvalid number of seats!\n";
-        return 0;
-    }
+            cout << "\nEnter Flight Number: ";
+            cin >> searchFlight;
 
-    totalPrice = prices[choice - 1] * seats;
+            for (int i = 0; i < 5; i++)
+            {
+                if (flightNumber[i] == searchFlight)
+                {
+                    cout << "\n========== FLIGHT FOUND ==========\n";
+                    cout << "Flight Number : " << flightNumber[i] << endl;
+                    cout << "From          : " << from[i] << endl;
+                    cout << "To            : " << to[i] << endl;
+                    cout << "Date          : " << dates[i] << endl;
+                    cout << "Time          : " << times[i] << endl;
+                    cout << "Price         : " << prices[i] << " EGP\n";
+                    cout << "Available     : " << availableSeats[i] << endl;
 
-    cout << "\n========================================\n";
-    cout << "          BOOKING CONFIRMATION\n";
-    cout << "========================================\n";
+                    found = true;
+                }
+            }
 
-    cout << "Booking Number : " << bookingNumber << endl;
-    cout << "Passenger Name : " << passengerName << endl;
-    cout << "Passport       : " << passportNumber << endl;
-    cout << "Destination    : " << destinations[choice - 1] << endl;
-    cout << "Travel Date    : " << travelDate << endl;
-    cout << "Seats          : " << seats << endl;
-    cout << "Price Per Seat : " << prices[choice - 1] << " EGP\n";
-    cout << "Total Price    : " << totalPrice << " EGP\n";
+            if (!found)
+            {
+                cout << "\nFlight not found!\n";
+            }
+        }
 
-    cout << "========================================\n";
-    cout << "       Booking completed successfully!\n";
-    cout << "========================================\n";
+        // --------------------------------
+        // 3. Book Flight
+        // --------------------------------
+
+        else if (choice == 3)
+        {
+            int selectedFlight;
+            int seats;
+            bool found = false;
+
+            cout << "\nEnter Flight Number: ";
+            cin >> selectedFlight;
+
+            for (int i = 0; i < 5; i++)
+            {
+                if (flightNumber[i] == selectedFlight)
+                {
+                    found = true;
+
+                    cout << "\nFlight: "
+                         << from[i] << " -> "
+                         << to[i] << endl;
+
+                    cout << "Available Seats: "
+                         << availableSeats[i] << endl;
+
+                    cout << "How many seats do you need? ";
+                    cin >> seats;
+
+                    if (seats <= 0)
+                    {
+                        cout << "\nInvalid number of seats!\n";
+                        break;
+                    }
+
+                    if (seats > availableSeats[i])
+                    {
+                        cout << "\nNot enough seats available!\n";
+                        break;
+                    }
+
+                    cin.ignore();
+
+                    cout << "Enter Passenger Name: ";
+                    getline(cin, passengerName[bookingCount]);
+
+                    cout << "Enter Passport Number: ";
+                    getline(cin, passport[bookingCount]);
+
+                    bookingID[bookingCount] = nextBookingID;
+                    bookedFlight[bookingCount] = selectedFlight;
+                    bookedSeats[bookingCount] = seats;
+
+                    bookingPrice[bookingCount] =
+                        prices[i] * seats;
+
+                    bookingActive[bookingCount] = true;
+
+                    availableSeats[i] -= seats;
+
+                    cout << "\n====================================\n";
+                    cout << "       BOOKING CONFIRMED ✓\n";
+                    cout << "====================================\n";
+
+                    cout << "Booking ID    : "
+                         << bookingID[bookingCount] << endl;
+
+                    cout << "Passenger     : "
+                         << passengerName[bookingCount] << endl;
+
+                    cout << "Flight        : "
+                         << from[i] << " -> "
+                         << to[i] << endl;
+
+                    cout << "Date          : "
+                         << dates[i] << endl;
+
+                    cout << "Time          : "
+                         << times[i] << endl;
+
+                    cout << "Seats         : "
+                         << seats << endl;
+
+                    cout << "Total Price   : "
+                         << bookingPrice[bookingCount]
+                         << " EGP\n";
+
+                    cout << "====================================\n";
+
+                    bookingCount++;
+                    nextBookingID++;
+
+                    break;
+                }
+            }
+
+            if (!found)
+            {
+                cout << "\nFlight not found!\n";
+            }
+        }
+
+        // --------------------------------
+        // 4. View Booking
+        // --------------------------------
+
+        else if (choice == 4)
+        {
+            int id;
+            bool found = false;
+
+            cout << "\nEnter Booking ID: ";
+            cin >> id;
+
+            for (int i = 0; i < bookingCount; i++)
+            {
+                if (bookingID[i] == id &&
+                    bookingActive[i] == true)
+                {
+                    found = true;
+
+                    int f = bookedFlight[i];
+
+                    cout << "\n====================================\n";
+                    cout << "           BOOKING DETAILS\n";
+                    cout << "====================================\n";
+
+                    cout << "Booking ID : "
+                         << bookingID[i] << endl;
+
+                    cout << "Passenger  : "
+                         << passengerName[i] << endl;
+
+                    cout << "Passport   : "
+                         << passport[i] << endl;
+
+                    cout << "Flight     : "
+                         << from[f - 101]
+                         << " -> "
+                         << to[f - 101] << endl;
+
+                    cout << "Date       : "
+                         << dates[f - 101] << endl;
+
+                    cout << "Time       : "
+                         << times[f - 101] << endl;
+
+                    cout << "Seats      : "
+                         << bookedSeats[i] << endl;
+
+                    cout << "Total      : "
+                         << bookingPrice[i]
+                         << " EGP\n";
+
+                    cout << "====================================\n";
+                }
+            }
+
+            if (!found)
+            {
+                cout << "\nBooking not found or cancelled!\n";
+            }
+        }
+
+        // --------------------------------
+        // 5. Cancel Booking
+        // --------------------------------
+
+        else if (choice == 5)
+        {
+            int id;
+            bool found = false;
+
+            cout << "\nEnter Booking ID: ";
+            cin >> id;
+
+            for (int i = 0; i < bookingCount; i++)
+            {
+                if (bookingID[i] == id &&
+                    bookingActive[i] == true)
+                {
+                    found = true;
+
+                    int f = bookedFlight[i];
+
+                    availableSeats[f - 101] +=
+                        bookedSeats[i];
+
+                    bookingActive[i] = false;
+
+                    cout << "\nBooking cancelled successfully!\n";
+                }
+            }
+
+            if (!found)
+            {
+                cout << "\nBooking not found!\n";
+            }
+        }
+
+        // --------------------------------
+        // 6. View All Bookings
+        // --------------------------------
+
+        else if (choice == 6)
+        {
+            cout << "\n============= ALL BOOKINGS =============\n";
+
+            bool anyBooking = false;
+
+            for (int i = 0; i < bookingCount; i++)
+            {
+                if (bookingActive[i] == true)
+                {
+                    anyBooking = true;
+
+                    cout << "\nBooking ID : "
+                         << bookingID[i] << endl;
+
+                    cout << "Passenger  : "
+                         << passengerName[i] << endl;
+
+                    cout << "Flight     : "
+                         << bookedFlight[i] << endl;
+
+                    cout << "Seats      : "
+                         << bookedSeats[i] << endl;
+
+                    cout << "Total      : "
+                         << bookingPrice[i]
+                         << " EGP\n";
+
+                    cout << "----------------------------------------\n";
+                }
+            }
+
+            if (!anyBooking)
+            {
+                cout << "No active bookings.\n";
+            }
+        }
+
+        // --------------------------------
+        // 7. Exit
+        // --------------------------------
+
+        else if (choice == 7)
+        {
+            cout << "\nThank you for using our Airline System! ✈\n";
+        }
+
+        else
+        {
+            cout << "\nInvalid choice. Please try again.\n";
+        }
+
+    } while (choice != 7);
 
     return 0;
 }
