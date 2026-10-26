@@ -1,0 +1,95 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main()
+{
+    string destinations[5] = {
+        "Cairo",
+        "Dubai",
+        "Istanbul",
+        "Paris",
+        "London"
+    };
+
+    double prices[5] = {
+        1500,
+        4500,
+        6000,
+        9000,
+        10000
+    };
+
+    string passengerName;
+    string passportNumber;
+    string travelDate;
+
+    int choice;
+    int seats;
+    int bookingNumber = 1001;
+    double totalPrice;
+
+    cout << "========================================\n";
+    cout << "        ✈ FLIGHT BOOKING SYSTEM ✈\n";
+    cout << "========================================\n";
+
+    cout << "\nAvailable Flights:\n";
+
+    for (int i = 0; i < 5; i++)
+    {
+        cout << i + 1 << ". "
+             << destinations[i]
+             << " - "
+             << prices[i]
+             << " EGP\n";
+    }
+
+    cout << "\nChoose your destination: ";
+    cin >> choice;
+
+    if (choice < 1 || choice > 5)
+    {
+        cout << "\nInvalid choice!\n";
+        return 0;
+    }
+
+    cout << "Enter passenger name: ";
+    cin.ignore();
+    getline(cin, passengerName);
+
+    cout << "Enter passport number: ";
+    getline(cin, passportNumber);
+
+    cout << "Enter travel date: ";
+    getline(cin, travelDate);
+
+    cout << "Enter number of seats: ";
+    cin >> seats;
+
+    if (seats <= 0)
+    {
+        cout << "\nInvalid number of seats!\n";
+        return 0;
+    }
+
+    totalPrice = prices[choice - 1] * seats;
+
+    cout << "\n========================================\n";
+    cout << "          BOOKING CONFIRMATION\n";
+    cout << "========================================\n";
+
+    cout << "Booking Number : " << bookingNumber << endl;
+    cout << "Passenger Name : " << passengerName << endl;
+    cout << "Passport       : " << passportNumber << endl;
+    cout << "Destination    : " << destinations[choice - 1] << endl;
+    cout << "Travel Date    : " << travelDate << endl;
+    cout << "Seats          : " << seats << endl;
+    cout << "Price Per Seat : " << prices[choice - 1] << " EGP\n";
+    cout << "Total Price    : " << totalPrice << " EGP\n";
+
+    cout << "========================================\n";
+    cout << "       Booking completed successfully!\n";
+    cout << "========================================\n";
+
+    return 0;
+}
